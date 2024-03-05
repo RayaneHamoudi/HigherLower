@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="nba.css">
+    <title>NBA Trivia Game</title>
+</head>
+<body>
+    <div class="container">
+        <div id="game-container">
+            <h1>NBA Trivia Game</h1>
+            
+            <!-- Single input for player's guess -->
+            <label for="player-guess">Make a Random Guess:</label>
+            <input type="text" id="player-guess" placeholder="Enter player name">
+
+            <!-- Accolade rows with arrows, values, and color-coding -->
+            <div id="accolades">
+                <div class="accolade-row" id="6moty">6th Man of the Year: <span class="accolade-value"></span><span class="arrow"></span></div>
+                <div class="accolade-row" id="allNBA">All-NBA Selections: <span class="accolade-value"></span><span class="arrow"></span></div>
+                <div class="accolade-row" id="allSTAR">All-Star Appearances: <span class="accolade-value"></span><span class="arrow"></span></div>
+                <div class="accolade-row" id="fmvps">NBA Finals MVPs: <span class="accolade-value"></span><span class="arrow"></span></div>
+                <div class="accolade-row" id="ROTYS">Rookie of the Year: <span class="accolade-value"></span><span class="arrow"></span></div>
+                <div class="accolade-row" id="DPOYS">Defensive Player of the Year: <span class="accolade-value"></span><span class="arrow"></span></div>
+                <div class="accolade-row" id="MVPS">NBA MVPs: <span class="accolade-value"></span><span class="arrow"></span></div>
+            </div>
+
+            <button id="submit-button">Submit Guess</button>
+
+            <p id="result"></p>
+            <div id="player-info"></div>
+        </div>
+    </div>
+    <script src="nba.js"></script>
+</body>
+</html>
