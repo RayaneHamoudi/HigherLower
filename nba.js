@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log("Game started!");
         document.getElementById('submit-button').removeAttribute('disabled');
 
+        //make gameStarted true
+        document.getElementById('start-game-button').dataset.gameStarted = true;
+
         //random player
         const randomIndex = Math.floor(Math.random() * jsonData.players.length);
         randomPlayer = jsonData.players[randomIndex];
@@ -45,7 +48,18 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const guessedPlayer = jsonData.players.find(player => player && player.name && player.name.toLowerCase() === playerGuess.toLowerCase());
+        const startGameButton = document.getElementById('start-game-button');
+
+        if(!startGameButton.dataset.gameStarted){
+            console.error("Please restart");
+            return;
+        }
+
+        console.log("All Players in jsonData", jsonData.players);
+
+        let guessedPlayer = jsonData.players.find(player => player.Name.toLowerCase() === playerGuess.toLowerCase());
+
+
 
         if (!guessedPlayer) {
             console.error("Guessed player not found.");
@@ -94,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('player-info').appendChild(guessedPlayerRow);
 
         // Display the correct answer
-        displayResult(guessedPlayer === savedRandomPlayer);
+        displayResult(guessedPlayer === randomPlayer);
         console.log("Guess checked!");
     }
 
