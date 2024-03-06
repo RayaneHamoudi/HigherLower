@@ -16,24 +16,24 @@ function displayResult(isCorrect) {
 
 document.addEventListener('DOMContentLoaded', function () {
     let jsonData;
-    let randomPlayer;  // Declare randomPlayer outside functions to make it accessible
+    let randomPlayer;
 
-    // start game func
-    function startGame() {
-        console.log("Game started!");
-        document.getElementById('submit-button').removeAttribute('disabled');
-
-        //make gameStarted true
-        document.getElementById('start-game-button').dataset.gameStarted = true;
-
-        //random player
+    // Function to get a random player
+    function getRandomPlayer() {
         const randomIndex = Math.floor(Math.random() * jsonData.players.length);
-        randomPlayer = jsonData.players[randomIndex];
-        console.log("Random Player:", randomPlayer);
-
-        //saving random player (later comparisons)
-        document.getElementById('submit-button').dataset.randomPlayer = JSON.stringify(randomPlayer);
+        return jsonData.players[randomIndex];
     }
+
+    // Fetch JSON data and set up random player
+    fetch('nba.json')
+        .then(response => response.json())
+        .then(data => {
+            jsonData = data;
+            randomPlayer = getRandomPlayer();
+            console.log("Random Player:", randomPlayer);  // Log the random player to console
+            document.getElementById('submit-button').removeAttribute('disabled');
+        })
+        .catch(error => console.error('Error fetching data', error));
 
     // Function to compare player's guess with the correct answer
     function checkGuess() {
@@ -44,22 +44,12 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log("Player Guess:", playerGuess);
 
         if (!jsonData) {
-            console.error("JSON data not available. Please start the game.");
+            console.error("JSON data not available. Please reload the page.");
             return;
         }
 
-        const startGameButton = document.getElementById('start-game-button');
-
-        if(!startGameButton.dataset.gameStarted){
-            console.error("Please restart");
-            return;
-        }
-
-        console.log("All Players in jsonData", jsonData.players);
 
         let guessedPlayer = jsonData.players.find(player => player.Name.toLowerCase() === playerGuess.toLowerCase());
-
-
 
         if (!guessedPlayer) {
             console.error("Guessed player not found.");
@@ -71,17 +61,13 @@ document.addEventListener('DOMContentLoaded', function () {
         // Create a new row for the guessed player's accolades
         const guessedPlayerRow = document.createElement('div');
         guessedPlayerRow.classList.add('guessed-player-row');
-        guessedPlayerRow.innerHTML = `<p>${guessedPlayer.name}</p>`;
         console.log("Guessed Player Row:", guessedPlayerRow);
-
-        //getting saved random player info for comparison
-        const savedRandomPlayer = JSON.parse(document.getElementById('submit-button').dataset.randomPlayer);
 
         // Compare the user's guessed player's accolades with the random player's accolades
         for (const accolade in guessedPlayer) {
             if (accolade !== "name") {
                 const guessedValue = guessedPlayer[accolade];
-                const randomValue = savedRandomPlayer[accolade];
+                const randomValue = randomPlayer[accolade];
 
                 const accoladeElement = document.createElement('div');
                 accoladeElement.classList.add('accolade-row');
@@ -112,15 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log("Guess checked!");
     }
 
-    // get json data and enable start game button
-    fetch('nba.json')
-        .then(response => response.json())
-        .then(data => {
-            jsonData = data;
-            document.getElementById('start-game-button').addEventListener('click', startGame);
-        })
-        .catch(error => console.error('Error fetching data', error));
-
     document.getElementById('submit-button').addEventListener('click', checkGuess);
 });
+
 
