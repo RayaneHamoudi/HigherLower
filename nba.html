@@ -11,11 +11,14 @@
         <div id="game-container">
             <h1>NBA Trivia Game</h1>
             
-            <!-- Single input for player's guess -->
+            <!-- Input for player's guess with drop-down suggestions -->
             <label for="player-guess">Make a Random Guess:</label>
-            <input type="text" id="player-guess" placeholder="Enter player name">
+            <input list="player-names" id="player-guess" placeholder="Enter player name">
 
-            <!-- Accolade rows with arrows, values, and color-coding -->
+            <!-- Datalist for player names suggestions -->
+            <datalist id="player-names"></datalist>
+
+            <!-- Accolades display -->
             <div id="accolades">
                 <div class="accolade-row" id="6moty">6th Man of the Year: <span class="accolade-value"></span><span class="arrow"></span></div>
                 <div class="accolade-row" id="allNBA">All-NBA Selections: <span class="accolade-value"></span><span class="arrow"></span></div>
@@ -26,8 +29,7 @@
                 <div class="accolade-row" id="MVPS">NBA MVPs: <span class="accolade-value"></span><span class="arrow"></span></div>
             </div>
 
-
-            <button id="submit-button">Submit Guess</button>
+            <button id="submit-button" disabled>Submit Guess</button>
 
             <p id="result"></p>
             <div id="player-info"></div>
@@ -36,4 +38,5 @@
     <script src="nba.js"></script>
 </body>
 </html>
+
 
