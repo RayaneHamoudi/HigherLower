@@ -17,6 +17,8 @@ function displayResult(isCorrect) {
 document.addEventListener('DOMContentLoaded', function () {
     let jsonData;
     let randomPlayer;
+    let attemptCount = 0; // Initialize attempt counter
+
 
     // Function to get a random player
     function getRandomPlayer() {
@@ -84,6 +86,37 @@ document.addEventListener('DOMContentLoaded', function () {
     function checkGuess() {
         console.log("Checking guess...");
 
+         // Increment attempt counter
+         attemptCount++;
+         console.log(`Attempt ${attemptCount}`);
+
+         // Update the attempts display
+        const attemptsElement = document.getElementById('attempts');
+        attemptsElement.textContent = `Attempts: ${attemptCount}/6`;
+
+            // Check if the maximum number of attempts has been reached
+    if (attemptCount > 6) {
+        // Disable the submit button
+        //document.getElementById('submit-button').disabled = true;
+        
+
+        // Display the game over message
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = "Out of attempts! Game over!";
+
+        // Optionally display the correct player
+        const correctPlayerElement = document.getElementById('correct-player');
+        correctPlayerElement.innerHTML = `
+            <p>The correct player was: <strong>${randomPlayer.Name}</strong></p>
+        `;
+        document.getElementById('submit-button').addEventListener('click', location.reload());
+        return; // Exit the function to prevent further processing
+        }
+        if(attemptCount==6){
+            document.getElementById('submit-button').textContent = "Restart";
+
+        }
+
         // Get the user's guessed player
         const playerGuess = document.getElementById('player-guess').value;
         console.log("Player Guess:", playerGuess);
@@ -134,11 +167,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
                 guessedPlayerRow.appendChild(accoladeElement);
+
             }
         }
 
         // Display the guessed player's accolades
-        playerInfo.appendChild(guessedPlayerRow);
+        playerInfo.prepend(guessedPlayerRow);
 
         // Display the correct answer
         displayResult(guessedPlayer === randomPlayer);

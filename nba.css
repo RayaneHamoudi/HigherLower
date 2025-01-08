@@ -3,13 +3,19 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f5f5f5;
+    overflow-y: auto; /* Enables vertical scrolling */
+    height: auto;     /* Ensures the height adjusts dynamically */
+}
+html {
+    overflow-y: visible; /* Ensure vertical content is not clipped */
+    height: auto;        /* Allow the container to grow dynamically */
 }
 
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: auto;
 }
 
 #game-container {
@@ -101,6 +107,7 @@ button:hover {
     border: 2px solid #7ec8e3;
     padding: 10px;
     border-radius: 8px;
+    
 }
 
 .accolade-value {
