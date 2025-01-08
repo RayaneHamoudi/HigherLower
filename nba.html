@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,9 +14,13 @@
             <!-- Input for player's guess with drop-down suggestions -->
             <label for="player-guess">Make a Random Guess:</label>
             <input list="player-names" id="player-guess" placeholder="Enter player name">
+            <div id="player-picture"></div> <!-- Added for displaying player pictures -->
 
             <!-- Datalist for player names suggestions -->
             <datalist id="player-names"></datalist>
+
+            <!-- Autocomplete suggestions -->
+            <ul id="autocomplete-suggestions"></ul> <!-- Added for autocomplete functionality -->
 
             <!-- Accolades display -->
             <div id="accolades">
@@ -29,14 +33,19 @@
                 <div class="accolade-row" id="MVPS">NBA MVPs: <span class="accolade-value"></span><span class="arrow"></span></div>
             </div>
 
+            <!-- Attempts and result -->
+            <p id="attempts">Attempts: 0/6</p> <!-- Added for attempts tracking -->
+            <p id="result"></p>
+
             <button id="submit-button" disabled>Submit Guess</button>
 
-            <p id="result"></p>
+            <!-- Player info display -->
             <div id="player-info"></div>
+
+            <!-- Correct player display -->
+            <div id="correct-player"></div> <!-- Added to display correct player info -->
         </div>
     </div>
     <script src="nba.js"></script>
 </body>
 </html>
-
-
