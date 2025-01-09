@@ -1,42 +1,54 @@
-let attemptCount = 0;
-let gamewin = 0;
-function displayResult(isCorrect) {
-    const resultElement = document.getElementById('result');
-    if (isCorrect) {
-        // Display overall guess result
-        resultElement.textContent = "Correct!";
-        document.getElementById('submit-button').textContent = "Restart";
-        attemptCount = 6
-        gamewin = 1;   
-    } else {
-        // Player not found
-        resultElement.textContent = "Incorrect. Try again!";
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
     let jsonData;
     let randomPlayer;
-    attemptCount = 0; // Initialize attempt counter
+    let attemptCount = 0;
+    let gamewin = 0;
+    let jsonMode;   
+    
+    document.getElementById('player-guess').hidden = true;
+    document.querySelector('label[for="player-guess"]').hidden = true;
+    document.getElementById('attempts').hidden = true;
+    document.getElementById('submit-button').hidden = true;
+    
+    function setMode(mode) {
+        jsonMode = mode;
+        jsonPull();
+    }
+    
+    document.getElementById('easy-button').addEventListener('click', () => setMode('easy'));
+    document.getElementById('medium-button').addEventListener('click', () => setMode('medium'));
+    document.getElementById('hard-button').addEventListener('click', () => setMode('hard'));
+    
+    
+    
+    function displayResult(isCorrect) {
+        const resultElement = document.getElementById('result');
+        if (isCorrect) {
+            // Display overall guess result
+            resultElement.textContent = "Correct!";
+            document.getElementById('submit-button').textContent = "Restart";
+            attemptCount = 6
+            gamewin = 1;   
+        } else {
+            // Player not found
+            resultElement.textContent = "Incorrect. Try again!";
+        }
+    }
     // Function to get a random player
     function getRandomPlayer() {
         const randomIndex = Math.floor(Math.random() * jsonData.players.length);
         return jsonData.players[randomIndex];
     }
-
+    
     function displayAutocompleteSuggestions(searchTerm) {
-
         const autocompleteContainer = document.getElementById('autocomplete-suggestions');
         autocompleteContainer.innerHTML = '';
-
         if (!searchTerm || typeof searchTerm !== 'string') {
             return;
         }
-
         const matchingPlayers = jsonData.players.filter(player =>
             player.Name.toLowerCase().includes(searchTerm.toLowerCase())
         );
-
         matchingPlayers.forEach(player => {
             const suggestionItem = document.createElement('li');
             suggestionItem.textContent = player.Name;
@@ -47,9 +59,11 @@ document.addEventListener('DOMContentLoaded', function () {
             autocompleteContainer.appendChild(suggestionItem);
         });
     }
-
-    // Fetch JSON data and set up random player
-    fetch('nba.json')
+    function jsonPull(){
+        console.log(jsonMode)
+        // Fetch JSON data and set up random player
+        let jsonName = `nba${jsonMode}.json`;
+        fetch(jsonName)
         .then(response => response.json())
         .then(data => {
             jsonData = data;
@@ -57,21 +71,30 @@ document.addEventListener('DOMContentLoaded', function () {
             //test logging
             console.log("Random Player:", randomPlayer);
             document.getElementById('submit-button').removeAttribute('disabled');
-
+    
+            document.getElementById('player-guess').hidden = false;
+            document.querySelector('label[for="player-guess"]').hidden = false;
+            document.getElementById('attempts').hidden = false;
+            document.getElementById('submit-button').hidden = false;
+            document.getElementById('easy-button').hidden = true;
+            document.getElementById('medium-button').hidden = true;
+            document.getElementById('hard-button').hidden = true;
+            
             // Populate the datalist with player names
             const datalist = document.getElementById('player-names');
-            jsonData.players.forEach(player => {
-                const option = document.createElement('option');
-                option.value = player.Name; // Use correct property name
-                datalist.appendChild(option);
-            });
-
-            // Search bar functionality
-            const searchBar = document.getElementById('player-guess');
-            searchBar.addEventListener('input', displayAutocompleteSuggestions);
-        })
-        .catch(error => console.error('Error fetching data', error));
-
+                jsonData.players.forEach(player => {
+                    const option = document.createElement('option');
+                    option.value = player.Name; // Use correct property name
+                    datalist.appendChild(option);
+                });
+    
+                // Search bar functionality
+                const searchBar = document.getElementById('player-guess');
+                searchBar.addEventListener('input', displayAutocompleteSuggestions);
+            })
+            .catch(error => console.error('Error fetching data', error));
+    }
+    
     // Function to generate player picture URL
     function getPlayerPictureUrl(player) {
         const [firstName, lastName] = player.Name.split(' ');
@@ -81,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     // Function to compare player's guess with the correct answer
     function checkGuess() {
+        
         
         // Create a new row for the guessed player's accolades
         const guessedPlayerRow = document.createElement('div');

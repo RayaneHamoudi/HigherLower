@@ -1,0 +1,232 @@
+{"players":[
+
+  {
+    "Name": "LeBron James",
+    "All-Star": 20,
+    "DPOY": 0,
+    "MVP": 4,
+    "ROTY": 1,
+    "FMVP": 4,
+    "Six-Man": 0,
+    "All-NBA": 19
+  },
+  {
+    "Name": "Kareem Abdul-Jabbar",
+    "All-Star": 19,
+    "DPOY": 0,
+    "MVP": 6,
+    "ROTY": 1,
+    "FMVP": 2,
+    "Six-Man": 0,
+    "All-NBA": 15
+  },
+  {
+    "Name": "Kobe Bryant",
+    "All-Star": 18,
+    "DPOY": 0,
+    "MVP": 1,
+    "ROTY": 0,
+    "FMVP": 2,
+    "Six-Man": 0,
+    "All-NBA": 15
+  },
+  {
+    "Name": "Tim Duncan",
+    "All-Star": 15,
+    "DPOY": 0,
+    "MVP": 2,
+    "ROTY": 1,
+    "FMVP": 3,
+    "Six-Man": 0,
+    "All-NBA": 15
+  },
+  {
+    "Name": "Kevin Garnett",
+    "All-Star": 15,
+    "DPOY": 1,
+    "MVP": 1,
+    "ROTY": 0,
+    "FMVP": 0,
+    "Six-Man": 0,
+    "All-NBA": 9
+  },
+  {
+    "Name": "Shaquille O'Neal",
+    "All-Star": 15,
+    "DPOY": 0,
+    "MVP": 1,
+    "ROTY": 1,
+    "FMVP": 3,
+    "Six-Man": 0,
+    "All-NBA": 14
+  },
+  {
+    "Name": "Kevin Durant",
+    "All-Star": 14,
+    "DPOY": 0,
+    "MVP": 1,
+    "ROTY": 1,
+    "FMVP": 2,
+    "Six-Man": 0,
+    "All-NBA": 10
+  },
+  {
+    "Name": "Michael Jordan",
+    "All-Star": 14,
+    "DPOY": 1,
+    "MVP": 5,
+    "ROTY": 1,
+    "FMVP": 6,
+    "Six-Man": 0,
+    "All-NBA": 11
+  },
+  {
+    "Name": "Karl Malone",
+    "All-Star": 14,
+    "DPOY": 0,
+    "MVP": 2,
+    "ROTY": 0,
+    "FMVP": 0,
+    "Six-Man": 0,
+    "All-NBA": 14
+  },
+  {
+    "Name": "Dirk Nowitzki",
+    "All-Star": 14,
+    "DPOY": 0,
+    "MVP": 1,
+    "ROTY": 0,
+    "FMVP": 1,
+    "Six-Man": 0,
+    "All-NBA": 12
+  },
+  {
+    "Name": "Jerry West",
+    "All-Star": 14,
+    "DPOY": 0,
+    "MVP": 0,
+    "ROTY": 0,
+    "FMVP": 1,
+    "Six-Man": 0,
+    "All-NBA": 12
+  },
+  {
+    "Name": "Wilt Chamberlain",
+    "All-Star": 13,
+    "DPOY": 0,
+    "MVP": 4,
+    "ROTY": 1,
+    "FMVP": 1,
+    "Six-Man": 0,
+    "All-NBA": 10
+  },
+  {
+    "Name": "Bob Cousy",
+    "All-Star": 13,
+    "DPOY": 0,
+    "MVP": 0,
+    "ROTY": 0,
+    "FMVP": 0,
+    "Six-Man": 0,
+    "All-NBA": 8
+  },
+  {
+    "Name": "John Havlicek",
+    "All-Star": 13,
+    "DPOY": 0,
+    "MVP": 0,
+    "ROTY": 0,
+    "FMVP": 1,
+    "Six-Man": 0,
+    "All-NBA": 11
+  },
+  {
+    "Name": "Dwyane Wade",
+    "All-Star": 13,
+    "DPOY": 0,
+    "MVP": 0,
+    "ROTY": 0,
+    "FMVP": 1,
+    "Six-Man": 0,
+    "All-NBA": 8
+  },
+  {
+    "Name": "Larry Bird",
+    "All-Star": 12,
+    "DPOY": 0,
+    "MVP": 3,
+    "ROTY": 1,
+    "FMVP": 2,
+    "Six-Man": 0,
+    "All-NBA": 10
+  },
+  {
+    "Name": "Elvin Hayes",
+    "All-Star": 12,
+    "DPOY": 0,
+    "MVP": 0,
+    "ROTY": 0,
+    "FMVP": 0,
+    "Six-Man": 0,
+    "All-NBA": 6
+  },
+  {
+    "Name": "Magic Johnson",
+    "All-Star": 12,
+    "DPOY": 0,
+    "MVP": 3,
+    "ROTY": 0,
+    "FMVP": 3,
+    "Six-Man": 0,
+    "All-NBA": 10
+  },
+  {
+    "Name": "Moses Malone",
+    "All-Star": 12,
+    "DPOY": 0,
+    "MVP": 3,
+    "ROTY": 0,
+    "FMVP": 1,
+    "Six-Man": 0,
+    "All-NBA": 8
+  },
+  {
+    "Name": "Hakeem Olajuwon",
+    "All-Star": 12,
+    "DPOY": 2,
+    "MVP": 1,
+    "ROTY": 0,
+    "FMVP": 2,
+    "Six-Man": 0,
+    "All-NBA": 12
+  },
+  {
+    "Name": "Chris Paul",
+    "All-Star": 12,
+    "DPOY": 0,
+    "MVP": 0,
+    "ROTY": 1,
+    "FMVP": 0,
+    "Six-Man": 0,
+    "All-NBA": 11
+  },
+  {
+    "Name": "Oscar Robertson",
+    "All-Star": 12,
+    "DPOY": 0,
+    "MVP": 1,
+    "ROTY": 1,
+    "FMVP": 0,
+    "Six-Man": 0,
+    "All-NBA": 11
+  },
+  {
+    "Name": "Bill Russell",
+    "All-Star": 12,
+    "DPOY": 0,
+    "MVP": 5,
+    "ROTY": 0,
+    "FMVP": 0,
+    "Six-Man": 0,
+    "All-NBA": 11
+  }]}
