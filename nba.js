@@ -1,25 +1,23 @@
+let attemptCount = 0;
 function displayResult(isCorrect) {
     console.log("Displaying result...");
-
     const resultElement = document.getElementById('result');
-
     if (isCorrect) {
         // Display overall guess result
         resultElement.textContent = "Correct!";
+        document.getElementById('submit-button').textContent = "Restart";
+        attemptCount = 6   
     } else {
         // Player not found
         resultElement.textContent = "Incorrect. Try again!";
     }
-
     console.log("Result displayed!");
 }
 
 document.addEventListener('DOMContentLoaded', function () {
     let jsonData;
     let randomPlayer;
-    let attemptCount = 0; // Initialize attempt counter
-
-
+    attemptCount = 0; // Initialize attempt counter
     // Function to get a random player
     function getRandomPlayer() {
         const randomIndex = Math.floor(Math.random() * jsonData.players.length);
@@ -77,14 +75,24 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to generate player picture URL
     function getPlayerPictureUrl(player) {
         const [firstName, lastName] = player.Name.split(' ');
-        const lastNamePart = lastName.substring(0, 5).toLowerCase();
-        const firstNamePart = firstName.substring(0, 2).toLowerCase();
+        const lastNamePart = lastName.replace(/[^a-zA-Z ]/g, "").substring(0, 5).toLowerCase();
+        const firstNamePart = firstName.replace(/[^a-zA-Z ]/g, "").substring(0, 2).toLowerCase();
         return `https://www.basketball-reference.com/req/202106291/images/headshots/${lastNamePart}${firstNamePart}01.jpg`;
     }
 
     // Function to compare player's guess with the correct answer
     function checkGuess() {
         console.log("Checking guess...");
+        
+        // Create a new row for the guessed player's accolades
+        const guessedPlayerRow = document.createElement('div');
+        guessedPlayerRow.classList.add('guessed-player-row');
+        const playerInfo = document.getElementById('player-info');
+        
+        if (document.getElementById('player-guess').value==''){
+             document.getElementById('result').textContent="Enter a guess";
+            return;
+        }
 
          // Increment attempt counter
          attemptCount++;
@@ -94,33 +102,26 @@ document.addEventListener('DOMContentLoaded', function () {
         const attemptsElement = document.getElementById('attempts');
         attemptsElement.textContent = `Attempts: ${attemptCount}/6`;
 
-            // Check if the maximum number of attempts has been reached
-    if (attemptCount > 6) {
-        // Disable the submit button
-        //document.getElementById('submit-button').disabled = true;
+        // Check if the maximum number of attempts has been reached
+        if (attemptCount > 6) {
+            // Display the game over message
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = "Out of attempts! Game over!";
+
+            // Optionally display the correct player
+            const correctPlayerElement = document.getElementById('correct-player');
+            correctPlayerElement.innerHTML = `<p>The correct player was: <strong>${randomPlayer.Name}</strong></p>`;
+            document.getElementById('submit-button').addEventListener('click', location.reload());
+
+
+            // Exit the function to prevent further processing
+            return; 
+        }
         
-
-        // Display the game over message
-        const resultElement = document.getElementById('result');
-        resultElement.textContent = "Out of attempts! Game over!";
-
-        // Optionally display the correct player
-        const correctPlayerElement = document.getElementById('correct-player');
-        correctPlayerElement.innerHTML = `
-            <p>The correct player was: <strong>${randomPlayer.Name}</strong></p>
-        `;
-        document.getElementById('submit-button').addEventListener('click', location.reload());
-        return; // Exit the function to prevent further processing
-        }
-        if(attemptCount==6){
-            document.getElementById('submit-button').textContent = "Restart";
-
-        }
-
         // Get the user's guessed player
         const playerGuess = document.getElementById('player-guess').value;
         console.log("Player Guess:", playerGuess);
-
+        
         if (!jsonData) {
             console.error("JSON data not available. Please reload the page.");
             return;
@@ -132,28 +133,20 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error("Guessed player not found.");
             return;
         }
-
+        
         console.log("Guessed Player:", guessedPlayer);
-
-        const playerInfo = document.getElementById('player-info');
-
-        // Create a new row for the guessed player's accolades
-        const guessedPlayerRow = document.createElement('div');
-        guessedPlayerRow.classList.add('guessed-player-row');
-
-
-
+        
         
         // Compare the user's guessed player's accolades with the random player's accolades
         for (const accolade in guessedPlayer) {
             if (accolade !== "Name") {
                 const guessedValue = guessedPlayer[accolade];
                 const randomValue = randomPlayer[accolade];
-
+                
                 const accoladeElement = document.createElement('div');
                 accoladeElement.classList.add('accolade-row');
-                accoladeElement.innerHTML = `<span>${accolade}: <span class="accolade-value">${guessedValue}</span><span class="arrow"></span></span>`;
-
+                accoladeElement.innerHTML = `<span class= acc-name>${accolade}: <span class="accolade-value">${guessedValue}</span><span class="arrow"></span></span>`;
+                
                 // Compare the user's guessed player's accolade with the random player's accolade
                 if (guessedValue > randomValue) {
                     accoladeElement.querySelector('.arrow').textContent = ' ↓';
@@ -165,33 +158,72 @@ document.addEventListener('DOMContentLoaded', function () {
                     accoladeElement.querySelector('.arrow').textContent = '';
                     accoladeElement.style.color = 'green';
                 }
-
+                
                 guessedPlayerRow.appendChild(accoladeElement);
-
+                
             }
         }
-
+        
         // Display the guessed player's accolades
         playerInfo.prepend(guessedPlayerRow);
-
+        
         // Display the correct answer
         displayResult(guessedPlayer === randomPlayer);
         console.log("Guess checked!"); 
-            // Create the player picture element
-            const guessedPlayerImage = getPlayerPictureUrl(guessedPlayer);
-            const playerPictureElement = document.createElement('div');
-    
-            playerPictureElement.innerHTML = `
-                <img src="${guessedPlayerImage}" alt="${guessedPlayer.Name}" onerror="this.src='placeholder.jpg';" />
-                <p>${guessedPlayer.Name}</p>`;
-            if (guessedPlayerRow) {
-                guessedPlayerRow.prepend(playerPictureElement);
-            } else {
-                console.error('Element with class "guessed-player-row" not found.');
-                    playerInfo.appendChild(playerPictureElement);
-            
         
-        }}
-
+        // Create the player picture element
+        const guessedPlayerImage = getPlayerPictureUrl(guessedPlayer);
+        const playerPictureElement = document.createElement('div');
+        const playerNameElement = document.createElement('div');
+        playerNameElement.innerHTML = `<p>${guessedPlayer.Name}</p>`
+        playerPictureElement.innerHTML = `<img src="${guessedPlayerImage}" alt="${guessedPlayer.Name}" onerror="this.src='data/placeholder.jpg';" width="100" height="100"/>`;
+        if (guessedPlayerRow) {
+            guessedPlayerRow.prepend(playerPictureElement);
+            guessedPlayerRow.prepend(playerNameElement)
+        } else {
+            console.error('Element with class "guessed-player-row" not found.');
+            playerInfo.appendChild(playerPictureElement);
+            guessedPlayerRow.prepend(playerNameElement)
+        }
+        
+        //clear text box
+        document.getElementById('player-guess').value='';
+        
+        //attempt limit
+        if(attemptCount==6){
+            document.getElementById('submit-button').textContent = "Restart";
+            const correctPlayerElement = document.getElementById('correct-player');
+            correctPlayerElement.innerHTML = `<p>The correct player was: <strong>${randomPlayer.Name}</strong></p>`;
+            //row for random player if game is lost 
+            const randomPlayerRow = document.createElement('div');
+            randomPlayerRow.classList.add('guessed-player-row');
+            //creates correct answer row
+            for (const accolade in randomPlayer) {
+                if (accolade !== "Name") {
+                    const randomValue = randomPlayer[accolade];
+                    const randomAccoladeElement = document.createElement('div');
+                    randomAccoladeElement.classList.add('accolade-row');
+                    randomAccoladeElement.innerHTML = `<span class= acc-name>${accolade}: <span class="accolade-value">${randomValue}</span><span class="arrow"></span></span>`;
+                    randomPlayerRow.appendChild(randomAccoladeElement);
+                }
+            }
+            playerInfo.prepend(randomPlayerRow);
+            // Create the player picture element
+            const randomPlayerImage = getPlayerPictureUrl(randomPlayer);
+            const playerPictureElement = document.createElement('div');
+            const playerNameElement = document.createElement('div');
+            playerNameElement.innerHTML = `<p>${randomPlayer.Name}</p>`
+            playerPictureElement.innerHTML = `<img src="${randomPlayerImage}" alt="${randomPlayer.Name}" onerror="this.src='data/placeholder.jpg';" width="100" height="100"/>`;
+            randomPlayerRow.prepend(playerPictureElement);
+            randomPlayerRow.prepend(playerNameElement)
+        }
+    }
     document.getElementById('submit-button').addEventListener('click', checkGuess);
+    document.addEventListener('keydown', (event) => {
+        console.log(event);
+        if (event.key === 'Enter') {
+            console.log('Enter key pressed!');
+            checkGuess();
+        }
+    }); 
 });

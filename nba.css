@@ -111,6 +111,7 @@ button:hover {
 }
 
 .accolade-value {
+    font-size: 50px;
     font-weight: bold;
     margin-left: 5px;
     color: #333;
@@ -118,4 +119,7 @@ button:hover {
 
 .arrow {
     margin-left: 5px;
+}
+.acc-name{
+    font-size: 16px;
 }

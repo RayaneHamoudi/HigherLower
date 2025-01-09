@@ -17,12 +17,13 @@
             
             <!-- Player picture display -->
             <div id="player-picture" style="margin: 20px 0; text-align: center;"></div> <!-- For displaying player pictures -->
-
+            
             <!-- Datalist for player name suggestions -->
             <datalist id="player-names"></datalist>
-
+            
             <!-- Autocomplete suggestions -->
             <ul id="autocomplete-suggestions" style="list-style: none; padding: 0; margin: 10px 0;"></ul> <!-- Autocomplete functionality -->
+            <div id="correct-player" style="margin-top: 20px; font-weight: bold; color: red;"></div> <!-- Display correct player when game ends -->
 
             <!-- Attempts and result display -->
             <p id="attempts">Attempts: 0/6</p>
@@ -32,22 +33,12 @@
             <button id="submit-button" disabled>Submit Guess</button>
 
             <!-- Player accolades comparison -->
-            <div id="accolades" style="margin-top: 20px;">
-                <h3>Player Accolades</h3>
-                <div class="accolade-row" id="6moty">6th Man of the Year: <span class="accolade-value"></span><span class="arrow"></span></div>
-                <div class="accolade-row" id="allNBA">All-NBA Selections: <span class="accolade-value"></span><span class="arrow"></span></div>
-                <div class="accolade-row" id="allSTAR">All-Star Appearances: <span class="accolade-value"></span><span class="arrow"></span></div>
-                <div class="accolade-row" id="fmvps">NBA Finals MVPs: <span class="accolade-value"></span><span class="arrow"></span></div>
-                <div class="accolade-row" id="ROTYS">Rookie of the Year: <span class="accolade-value"></span><span class="arrow"></span></div>
-                <div class="accolade-row" id="DPOYS">Defensive Player of the Year: <span class="accolade-value"></span><span class="arrow"></span></div>
-                <div class="accolade-row" id="MVPS">NBA MVPs: <span class="accolade-value"></span><span class="arrow"></span></div>
-            </div>
+
 
             <!-- Player info display -->
             <div id="player-info" style="margin-top: 20px;"></div> <!-- Display guessed player's accolades -->
 
             <!-- Correct player reveal -->
-            <div id="correct-player" style="margin-top: 20px; font-weight: bold; color: red;"></div> <!-- Display correct player when game ends -->
         </div>
     </div>
     <script src="nba.js"></script>
