@@ -1,17 +1,15 @@
 let attemptCount = 0;
 function displayResult(isCorrect) {
-    console.log("Displaying result...");
     const resultElement = document.getElementById('result');
     if (isCorrect) {
         // Display overall guess result
         resultElement.textContent = "Correct!";
         document.getElementById('submit-button').textContent = "Restart";
-        attemptCount = 6   
+        attemptCount = 7   
     } else {
         // Player not found
         resultElement.textContent = "Incorrect. Try again!";
     }
-    console.log("Result displayed!");
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -25,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function displayAutocompleteSuggestions(searchTerm) {
-        console.log("search term:", searchTerm);
 
         const autocompleteContainer = document.getElementById('autocomplete-suggestions');
         autocompleteContainer.innerHTML = '';
@@ -55,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             jsonData = data;
             randomPlayer = getRandomPlayer();
+            //test logging
             console.log("Random Player:", randomPlayer);
             document.getElementById('submit-button').removeAttribute('disabled');
 
@@ -79,63 +77,52 @@ document.addEventListener('DOMContentLoaded', function () {
         const firstNamePart = firstName.replace(/[^a-zA-Z ]/g, "").substring(0, 2).toLowerCase();
         return `https://www.basketball-reference.com/req/202106291/images/headshots/${lastNamePart}${firstNamePart}01.jpg`;
     }
-
     // Function to compare player's guess with the correct answer
     function checkGuess() {
-        console.log("Checking guess...");
         
+
         // Create a new row for the guessed player's accolades
         const guessedPlayerRow = document.createElement('div');
         guessedPlayerRow.classList.add('guessed-player-row');
         const playerInfo = document.getElementById('player-info');
         
-        if (document.getElementById('player-guess').value==''){
-             document.getElementById('result').textContent="Enter a guess";
-            return;
-        }
-
-         // Increment attempt counter
-         attemptCount++;
-         console.log(`Attempt ${attemptCount}`);
-
-         // Update the attempts display
+        // Increment attempt counter
+        attemptCount++;
+        
+        // Update the attempts display
         const attemptsElement = document.getElementById('attempts');
         attemptsElement.textContent = `Attempts: ${attemptCount}/6`;
-
+        
         // Check if the maximum number of attempts has been reached
         if (attemptCount > 6) {
             // Display the game over message
             const resultElement = document.getElementById('result');
             resultElement.textContent = "Out of attempts! Game over!";
-
+            
             // Optionally display the correct player
             const correctPlayerElement = document.getElementById('correct-player');
             correctPlayerElement.innerHTML = `<p>The correct player was: <strong>${randomPlayer.Name}</strong></p>`;
             document.getElementById('submit-button').addEventListener('click', location.reload());
-
-
+            
             // Exit the function to prevent further processing
             return; 
+        }
+
+        if (document.getElementById('player-guess').value==''){
+             document.getElementById('result').textContent="Enter a guess";
+            return;
         }
         
         // Get the user's guessed player
         const playerGuess = document.getElementById('player-guess').value;
-        console.log("Player Guess:", playerGuess);
         
         if (!jsonData) {
-            console.error("JSON data not available. Please reload the page.");
             return;
         }
-
         let guessedPlayer = jsonData.players.find(player => player.Name.toLowerCase() === playerGuess.toLowerCase());
-
         if (!guessedPlayer) {
-            console.error("Guessed player not found.");
             return;
         }
-        
-        console.log("Guessed Player:", guessedPlayer);
-        
         
         // Compare the user's guessed player's accolades with the random player's accolades
         for (const accolade in guessedPlayer) {
@@ -169,7 +156,6 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Display the correct answer
         displayResult(guessedPlayer === randomPlayer);
-        console.log("Guess checked!"); 
         
         // Create the player picture element
         const guessedPlayerImage = getPlayerPictureUrl(guessedPlayer);
@@ -181,7 +167,6 @@ document.addEventListener('DOMContentLoaded', function () {
             guessedPlayerRow.prepend(playerPictureElement);
             guessedPlayerRow.prepend(playerNameElement)
         } else {
-            console.error('Element with class "guessed-player-row" not found.');
             playerInfo.appendChild(playerPictureElement);
             guessedPlayerRow.prepend(playerNameElement)
         }
@@ -220,9 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     document.getElementById('submit-button').addEventListener('click', checkGuess);
     document.addEventListener('keydown', (event) => {
-        console.log(event);
         if (event.key === 'Enter') {
-            console.log('Enter key pressed!');
             checkGuess();
         }
     }); 
