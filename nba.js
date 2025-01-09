@@ -62,7 +62,7 @@
     function jsonPull(){
         console.log(jsonMode)
         // Fetch JSON data and set up random player
-        let jsonName = `nba${jsonMode}.json`;
+        let jsonName = `json/nba${jsonMode}.json`;
         fetch(jsonName)
         .then(response => response.json())
         .then(data => {
