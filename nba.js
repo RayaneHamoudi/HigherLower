@@ -1,11 +1,13 @@
 let attemptCount = 0;
+let gamewin = 0;
 function displayResult(isCorrect) {
     const resultElement = document.getElementById('result');
     if (isCorrect) {
         // Display overall guess result
         resultElement.textContent = "Correct!";
         document.getElementById('submit-button').textContent = "Restart";
-        attemptCount = 7   
+        attemptCount = 6
+        gamewin = 1;   
     } else {
         // Player not found
         resultElement.textContent = "Incorrect. Try again!";
@@ -80,48 +82,36 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to compare player's guess with the correct answer
     function checkGuess() {
         
-
         // Create a new row for the guessed player's accolades
         const guessedPlayerRow = document.createElement('div');
         guessedPlayerRow.classList.add('guessed-player-row');
         const playerInfo = document.getElementById('player-info');
         
+        // Get the user's guessed player
+        const playerGuess = document.getElementById('player-guess').value;
+        if (!jsonData) {return;}
+        let guessedPlayer = jsonData.players.find(player => player.Name.toLowerCase() === playerGuess.toLowerCase());
+        if (guessedPlayer== null && attemptCount<6) {
+            document.getElementById('result').textContent="Enter a valid guess";
+            return;
+        }
+
         // Increment attempt counter
         attemptCount++;
-        
         // Update the attempts display
         const attemptsElement = document.getElementById('attempts');
         attemptsElement.textContent = `Attempts: ${attemptCount}/6`;
-        
         // Check if the maximum number of attempts has been reached
         if (attemptCount > 6) {
             // Display the game over message
             const resultElement = document.getElementById('result');
             resultElement.textContent = "Out of attempts! Game over!";
-            
             // Optionally display the correct player
             const correctPlayerElement = document.getElementById('correct-player');
             correctPlayerElement.innerHTML = `<p>The correct player was: <strong>${randomPlayer.Name}</strong></p>`;
             document.getElementById('submit-button').addEventListener('click', location.reload());
-            
-            // Exit the function to prevent further processing
+            // Exit the function 
             return; 
-        }
-
-        if (document.getElementById('player-guess').value==''){
-             document.getElementById('result').textContent="Enter a guess";
-            return;
-        }
-        
-        // Get the user's guessed player
-        const playerGuess = document.getElementById('player-guess').value;
-        
-        if (!jsonData) {
-            return;
-        }
-        let guessedPlayer = jsonData.players.find(player => player.Name.toLowerCase() === playerGuess.toLowerCase());
-        if (!guessedPlayer) {
-            return;
         }
         
         // Compare the user's guessed player's accolades with the random player's accolades
@@ -155,54 +145,58 @@ document.addEventListener('DOMContentLoaded', function () {
         playerInfo.prepend(guessedPlayerRow);
         
         // Display the correct answer
-        displayResult(guessedPlayer === randomPlayer);
+        displayResult(guessedPlayer == randomPlayer);
+        
         
         // Create the player picture element
-        const guessedPlayerImage = getPlayerPictureUrl(guessedPlayer);
-        const playerPictureElement = document.createElement('div');
-        const playerNameElement = document.createElement('div');
-        playerNameElement.innerHTML = `<p>${guessedPlayer.Name}</p>`
-        playerPictureElement.innerHTML = `<img src="${guessedPlayerImage}" alt="${guessedPlayer.Name}" onerror="this.src='data/placeholder.jpg';" width="100" height="100"/>`;
-        if (guessedPlayerRow) {
-            guessedPlayerRow.prepend(playerPictureElement);
-            guessedPlayerRow.prepend(playerNameElement)
-        } else {
-            playerInfo.appendChild(playerPictureElement);
-            guessedPlayerRow.prepend(playerNameElement)
+        if(gamewin==0){
+            const guessedPlayerImage = getPlayerPictureUrl(guessedPlayer);
+            const playerPictureElement = document.createElement('div');
+            const playerNameElement = document.createElement('div');
+            playerNameElement.innerHTML = `<p>${guessedPlayer.Name}</p>`
+            playerPictureElement.innerHTML = `<img src="${guessedPlayerImage}" alt="${guessedPlayer.Name}" onerror="this.src='data/placeholder.jpg';" width="100" height="100"/>`;
+            if (guessedPlayerRow) {
+                guessedPlayerRow.prepend(playerPictureElement);
+                guessedPlayerRow.prepend(playerNameElement)
+            } else {
+                playerInfo.appendChild(playerPictureElement);
+                guessedPlayerRow.prepend(playerNameElement)
+            }
         }
-        
-        //clear text box
-        document.getElementById('player-guess').value='';
-        
         //attempt limit
         if(attemptCount==6){
             document.getElementById('submit-button').textContent = "Restart";
             const correctPlayerElement = document.getElementById('correct-player');
             correctPlayerElement.innerHTML = `<p>The correct player was: <strong>${randomPlayer.Name}</strong></p>`;
+            if(gamewin==1){correctPlayerElement.style.color = 'green'}
             //row for random player if game is lost 
             const randomPlayerRow = document.createElement('div');
-            randomPlayerRow.classList.add('guessed-player-row');
+            randomPlayerRow.classList.add('guessed-player-row');    
             //creates correct answer row
-            for (const accolade in randomPlayer) {
-                if (accolade !== "Name") {
-                    const randomValue = randomPlayer[accolade];
-                    const randomAccoladeElement = document.createElement('div');
-                    randomAccoladeElement.classList.add('accolade-row');
-                    randomAccoladeElement.innerHTML = `<span class= acc-name>${accolade}: <span class="accolade-value">${randomValue}</span><span class="arrow"></span></span>`;
-                    randomPlayerRow.appendChild(randomAccoladeElement);
-                }
+            if(gamewin == 0){
+                for (const accolade in randomPlayer) {
+                    if (accolade !== "Name") {
+                        const randomValue = randomPlayer[accolade];
+                        const randomAccoladeElement = document.createElement('div');
+                        randomAccoladeElement.classList.add('accolade-row');
+                        randomAccoladeElement.innerHTML = `<span class= acc-name>${accolade}: <span class="accolade-value">${randomValue}</span><span class="arrow"></span></span>`;
+                        randomPlayerRow.appendChild(randomAccoladeElement);
+                    }}
+                    playerInfo.prepend(randomPlayerRow);
             }
-            playerInfo.prepend(randomPlayerRow);
             // Create the player picture element
-            const randomPlayerImage = getPlayerPictureUrl(randomPlayer);
+            const randomPlayerImage = getPlayerPictureUrl(randomPlayer);    
             const playerPictureElement = document.createElement('div');
             const playerNameElement = document.createElement('div');
             playerNameElement.innerHTML = `<p>${randomPlayer.Name}</p>`
-            playerPictureElement.innerHTML = `<img src="${randomPlayerImage}" alt="${randomPlayer.Name}" onerror="this.src='data/placeholder.jpg';" width="100" height="100"/>`;
-            randomPlayerRow.prepend(playerPictureElement);
-            randomPlayerRow.prepend(playerNameElement)
+            playerPictureElement.innerHTML = `<img src="${randomPlayerImage}" alt="${randomPlayer.Name}" onerror="this.src='data/placeholder.jpg';"width="120" height="180"/>`;
+            playerInfo.prepend(playerPictureElement);
+            attemptCount++;
         }
+        //clear text box
+        document.getElementById('player-guess').value='';
     }
+    //detect click or enter
     document.getElementById('submit-button').addEventListener('click', checkGuess);
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
