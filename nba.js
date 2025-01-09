@@ -13,57 +13,36 @@
     // Initialize all-time score
     function initializeAllTimeScore() {
         if (!localStorage.getItem('allTimeScore')) {
-            localStorage.setItem('allTimeScore', JSON.stringify({ wins: 0, losses: 0 }));
-        }
+            localStorage.setItem('allTimeScore', JSON.stringify({
+                easy: { wins: 0, losses: 0 },
+                medium: { wins: 0, losses: 0 },
+                hard: { wins: 0, losses: 0 }}));}
     }
-    function getAllTimeScoreText() {
+
+    function getAllTimeScoreText() { 
         const allTimeScore = JSON.parse(localStorage.getItem('allTimeScore'));
-        return `Wins: ${allTimeScore.wins}, Losses: ${allTimeScore.losses}`;
+        return `<p>Easy - Wins: ${allTimeScore.easy.wins}, Losses: ${allTimeScore.easy.losses}</p>` +
+               `<p>Medium - Wins: ${allTimeScore.medium.wins}, Losses: ${allTimeScore.medium.losses}</p>` +
+               `<p>Hard - Wins: ${allTimeScore.hard.wins}, Losses: ${allTimeScore.hard.losses}</p>`;
     }
-    function updateAllTimeScore() {
-        const allTimeScore = JSON.parse(localStorage.getItem('allTimeScore'));
-        if (gamewin==1) {
-            allTimeScore.wins += 1;
-        } else {
-            allTimeScore.losses += 1;
-        }
-        localStorage.setItem('allTimeScore', JSON.stringify(allTimeScore));
-    }
-
-    document.getElementById('score-button').addEventListener('click', () => {
-        const scoreText = getAllTimeScoreText();
-        document.getElementById('modal-score').textContent = scoreText;
-
-        // Show modal and overlay
-        document.getElementById('score-modal').style.display = 'block';
-        document.getElementById('modal-overlay').style.display = 'block';
-    });
-
-    // Close the modal
-    document.getElementById('close-modal').addEventListener('click', () => {
-        document.getElementById('score-modal').style.display = 'none';
-        document.getElementById('modal-overlay').style.display = 'none';
-    });
-
-    // Close modal when overlay is clicked
-    document.getElementById('modal-overlay').addEventListener('click', () => {
-        document.getElementById('score-modal').style.display = 'none';
-        document.getElementById('modal-overlay').style.display = 'none';
-    });
-    // Call initialization
-    initializeAllTimeScore();
     
+    
+
+    function updateAllTimeScore(difficulty) {
+        const allTimeScore = JSON.parse(localStorage.getItem('allTimeScore'));
+        if (allTimeScore[difficulty]) {
+            if (gamewin === 1) {
+                allTimeScore[difficulty].wins += 1;
+            } else {
+                allTimeScore[difficulty].losses += 1;
+            }
+            localStorage.setItem('allTimeScore', JSON.stringify(allTimeScore));} 
+    }
 
     function setMode(mode) {
         jsonMode = mode;
         jsonPull();
     }
-    
-    document.getElementById('easy-button').addEventListener('click', () => setMode('easy'));
-    document.getElementById('medium-button').addEventListener('click', () => setMode('medium'));
-    document.getElementById('hard-button').addEventListener('click', () => setMode('hard'));
-    
-    
     
     function displayResult(isCorrect) {
         const resultElement = document.getElementById('result');
@@ -73,13 +52,14 @@
             document.getElementById('submit-button').textContent = "Restart";
             attemptCount = 6
             gamewin = 1;   
-            updateAllTimeScore();
+            updateAllTimeScore(jsonMode);
             
         } else {
             // Player not found
             resultElement.textContent = "Incorrect. Try again!";
         }
     }
+
     // Function to get a random player
     function getRandomPlayer() {
         const randomIndex = Math.floor(Math.random() * jsonData.players.length);
@@ -105,6 +85,7 @@
             autocompleteContainer.appendChild(suggestionItem);
         });
     }
+
     function jsonPull(){
         console.log(jsonMode)
         // Fetch JSON data and set up random player
@@ -148,6 +129,9 @@
         const firstNamePart = firstName.replace(/[^a-zA-Z ]/g, "").substring(0, 2).toLowerCase();
         return `https://www.basketball-reference.com/req/202106291/images/headshots/${lastNamePart}${firstNamePart}01.jpg`;
     }
+    
+
+
     // Function to compare player's guess with the correct answer
     function checkGuess() {
         
@@ -245,7 +229,7 @@
             //creates correct answer row
             if(gamewin == 0){
 
-                updateAllTimeScore();
+                updateAllTimeScore(jsonMode);
                 displayAllTimeScore();
 
                 for (const accolade in randomPlayer) {
@@ -270,6 +254,37 @@
         //clear text box
         document.getElementById('player-guess').value='';
     }
+    
+    
+    // Call initialization
+    initializeAllTimeScore();
+    
+    document.getElementById('easy-button').addEventListener('click', () => setMode('easy'));
+    document.getElementById('medium-button').addEventListener('click', () => setMode('medium'));
+    document.getElementById('hard-button').addEventListener('click', () => setMode('hard'));
+    
+    document.getElementById('score-button').addEventListener('click', () => {
+        const scoreText = getAllTimeScoreText();
+        document.getElementById('modal-score').innerHTML = scoreText;
+
+        // Show modal and overlay
+        document.getElementById('score-modal').style.display = 'block';
+        document.getElementById('modal-overlay').style.display = 'block';
+    });
+
+    // Close the modal
+    document.getElementById('close-modal').addEventListener('click', () => {
+        document.getElementById('score-modal').style.display = 'none';
+        document.getElementById('modal-overlay').style.display = 'none';
+    });
+
+
+    // Close modal when overlay is clicked
+    document.getElementById('modal-overlay').addEventListener('click', () => {
+        document.getElementById('score-modal').style.display = 'none';
+        document.getElementById('modal-overlay').style.display = 'none';
+    });
+
     //detect click or enter
     document.getElementById('submit-button').addEventListener('click', checkGuess);
     document.addEventListener('keydown', (event) => {
