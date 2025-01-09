@@ -9,7 +9,51 @@
     document.querySelector('label[for="player-guess"]').hidden = true;
     document.getElementById('attempts').hidden = true;
     document.getElementById('submit-button').hidden = true;
+
+    // Initialize all-time score
+    function initializeAllTimeScore() {
+        if (!localStorage.getItem('allTimeScore')) {
+            localStorage.setItem('allTimeScore', JSON.stringify({ wins: 0, losses: 0 }));
+        }
+    }
+    function getAllTimeScoreText() {
+        const allTimeScore = JSON.parse(localStorage.getItem('allTimeScore'));
+        return `Wins: ${allTimeScore.wins}, Losses: ${allTimeScore.losses}`;
+    }
+    function updateAllTimeScore() {
+        const allTimeScore = JSON.parse(localStorage.getItem('allTimeScore'));
+        if (gamewin==1) {
+            allTimeScore.wins += 1;
+        } else {
+            allTimeScore.losses += 1;
+        }
+        localStorage.setItem('allTimeScore', JSON.stringify(allTimeScore));
+    }
+
+    document.getElementById('score-button').addEventListener('click', () => {
+        const scoreText = getAllTimeScoreText();
+        document.getElementById('modal-score').textContent = scoreText;
+
+        // Show modal and overlay
+        document.getElementById('score-modal').style.display = 'block';
+        document.getElementById('modal-overlay').style.display = 'block';
+    });
+
+    // Close the modal
+    document.getElementById('close-modal').addEventListener('click', () => {
+        document.getElementById('score-modal').style.display = 'none';
+        document.getElementById('modal-overlay').style.display = 'none';
+    });
+
+    // Close modal when overlay is clicked
+    document.getElementById('modal-overlay').addEventListener('click', () => {
+        document.getElementById('score-modal').style.display = 'none';
+        document.getElementById('modal-overlay').style.display = 'none';
+    });
+    // Call initialization
+    initializeAllTimeScore();
     
+
     function setMode(mode) {
         jsonMode = mode;
         jsonPull();
@@ -29,6 +73,8 @@
             document.getElementById('submit-button').textContent = "Restart";
             attemptCount = 6
             gamewin = 1;   
+            updateAllTimeScore();
+            
         } else {
             // Player not found
             resultElement.textContent = "Incorrect. Try again!";
@@ -131,13 +177,13 @@
             const resultElement = document.getElementById('result');
             resultElement.textContent = "Out of attempts! Game over!";
             // Optionally display the correct player
-            const correctPlayerElement = document.getElementById('correct-player');
+            const correctPlayerElement = document.getElementById('correct-player');            
             correctPlayerElement.innerHTML = `<p>The correct player was: <strong>${randomPlayer.Name}</strong></p>`;
             document.getElementById('submit-button').addEventListener('click', location.reload());
             // Exit the function 
             return; 
         }
-        
+
         // Compare the user's guessed player's accolades with the random player's accolades
         for (const accolade in guessedPlayer) {
             if (accolade !== "Name") {
@@ -198,6 +244,10 @@
             randomPlayerRow.classList.add('guessed-player-row');    
             //creates correct answer row
             if(gamewin == 0){
+
+                updateAllTimeScore();
+                displayAllTimeScore();
+
                 for (const accolade in randomPlayer) {
                     if (accolade !== "Name") {
                         const randomValue = randomPlayer[accolade];
