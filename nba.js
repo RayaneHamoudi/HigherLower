@@ -106,21 +106,30 @@
             document.getElementById('easy-button').hidden = true;
             document.getElementById('medium-button').hidden = true;
             document.getElementById('hard-button').hidden = true;
-            
+            })
+            .catch(error => console.error('Error fetching data', error));
+    }
+
+
+
+        let jsonListName = `json/nba.json`;
+        fetch(jsonListName)
+        .then(response => response.json())
+        .then(data => {
+            let jsonListData = data;
             // Populate the datalist with player names
             const datalist = document.getElementById('player-names');
-                jsonData.players.forEach(player => {
+                jsonListData.players.forEach(player => {
                     const option = document.createElement('option');
                     option.value = player.Name; // Use correct property name
                     datalist.appendChild(option);
                 });
-    
                 // Search bar functionality
                 const searchBar = document.getElementById('player-guess');
                 searchBar.addEventListener('input', displayAutocompleteSuggestions);
             })
             .catch(error => console.error('Error fetching data', error));
-    }
+    
     
     // Function to generate player picture URL
     function getPlayerPictureUrl(player) {
