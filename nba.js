@@ -4,7 +4,7 @@
     let attemptCount = 0;
     let gamewin = 0;
     let jsonMode;   
-    
+    let jsonListData;
     document.getElementById('player-guess').hidden = true;
     document.querySelector('label[for="player-guess"]').hidden = true;
     document.getElementById('attempts').hidden = true;
@@ -116,7 +116,7 @@
         fetch(jsonListName)
         .then(response => response.json())
         .then(data => {
-            let jsonListData = data;
+            jsonListData = data;
             // Populate the datalist with player names
             const datalist = document.getElementById('player-names');
                 jsonListData.players.forEach(player => {
