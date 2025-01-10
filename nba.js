@@ -152,8 +152,8 @@
         
         // Get the user's guessed player
         const playerGuess = document.getElementById('player-guess').value;
-        if (!jsonData) {return;}
-        let guessedPlayer = jsonData.players.find(player => player.Name.toLowerCase() === playerGuess.toLowerCase());
+        if (!jsonListData) {return;}
+        let guessedPlayer = jsonListData.players.find(player => player.Name.toLowerCase() === playerGuess.toLowerCase());
         if (guessedPlayer== null && attemptCount<6) {
             document.getElementById('result').textContent="Enter a valid guess";
             return;
