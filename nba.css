@@ -123,3 +123,6 @@ button:hover {
 .acc-name{
     font-size: 16px;
 }
+#game-container {
+    position: relative;
+}
