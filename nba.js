@@ -284,6 +284,15 @@
         document.getElementById('score-modal').style.display = 'none';
         document.getElementById('modal-overlay').style.display = 'none';
     });
+    document.getElementById('info-button').addEventListener('click', function () {
+        document.getElementById('info-modal').style.display = 'block';
+        document.getElementById('modal-overlay').style.display = 'block';
+    });
+    
+    document.getElementById('close-info-modal').addEventListener('click', function () {
+        document.getElementById('info-modal').style.display = 'none';
+        document.getElementById('modal-overlay').style.display = 'none';
+    });
 
     //detect click or enter
     document.getElementById('submit-button').addEventListener('click', checkGuess);
