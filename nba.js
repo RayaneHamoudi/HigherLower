@@ -206,9 +206,9 @@
         
         // Display the guessed player's accolades
         playerInfo.prepend(guessedPlayerRow);
-        
+        console.log(guessedPlayer.Name)
         // Display the correct answer
-        displayResult(guessedPlayer == randomPlayer);
+        displayResult(guessedPlayer.Name === randomPlayer.Name);
         
         
         // Create the player picture element
