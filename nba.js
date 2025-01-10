@@ -191,9 +191,28 @@
                 if (guessedValue > randomValue) {
                     accoladeElement.querySelector('.arrow').textContent = ' ↓';
                     accoladeElement.style.color = 'red';
+                    if(accolade=="All-Star" && guessedValue-3 <= randomValue){
+                        accoladeElement.style.color = 'gold'
+                    }
+                    else if(accolade=="Draft-Year" && guessedValue-3 <= randomValue){
+                        accoladeElement.style.color = 'gold'
+                    } 
+                    //else if (guessedValue-1 <= randomValue){
+                    //    accoladeElement.style.color = 'gold'
+                    //}
                 } else if (guessedValue < randomValue) {
                     accoladeElement.querySelector('.arrow').textContent = ' ↑';
                     accoladeElement.style.color = 'red';
+                    if(accolade=="All-Star" && guessedValue+3 >= randomValue){
+                        accoladeElement.style.color = "gold"
+                    }
+                    else if(accolade=="Draft-Year" && guessedValue+3 >= randomValue){
+                        accoladeElement.style.color = 'gold'
+                    } 
+                    //else if (guessedValue+1 >= randomValue ){
+                    //    accoladeElement.style.color = 'yellow'
+                    //}
+
                 } else {
                     accoladeElement.querySelector('.arrow').textContent = '';
                     accoladeElement.style.color = 'green';
