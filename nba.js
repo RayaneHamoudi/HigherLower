@@ -26,8 +26,6 @@
                `<p>Hard - Wins: ${allTimeScore.hard.wins}, Losses: ${allTimeScore.hard.losses}</p>`;
     }
     
-    
-
     function updateAllTimeScore(difficulty) {
         const allTimeScore = JSON.parse(localStorage.getItem('allTimeScore'));
         if (allTimeScore[difficulty]) {
@@ -130,8 +128,6 @@
         return `https://www.basketball-reference.com/req/202106291/images/headshots/${lastNamePart}${firstNamePart}01.jpg`;
     }
     
-
-
     // Function to compare player's guess with the correct answer
     function checkGuess() {
         
@@ -189,9 +185,7 @@
                     accoladeElement.querySelector('.arrow').textContent = '';
                     accoladeElement.style.color = 'green';
                 }
-                
-                guessedPlayerRow.appendChild(accoladeElement);
-                
+                guessedPlayerRow.appendChild(accoladeElement);   
             }
         }
         
@@ -200,7 +194,6 @@
         
         // Display the correct answer
         displayResult(guessedPlayer == randomPlayer);
-        
         
         // Create the player picture element
         if(gamewin==0){
@@ -228,10 +221,8 @@
             randomPlayerRow.classList.add('guessed-player-row');    
             //creates correct answer row
             if(gamewin == 0){
-
                 updateAllTimeScore(jsonMode);
                 displayAllTimeScore();
-
                 for (const accolade in randomPlayer) {
                     if (accolade !== "Name") {
                         const randomValue = randomPlayer[accolade];
@@ -255,30 +246,24 @@
         document.getElementById('player-guess').value='';
     }
     
-    
     // Call initialization
     initializeAllTimeScore();
     
     document.getElementById('easy-button').addEventListener('click', () => setMode('easy'));
     document.getElementById('medium-button').addEventListener('click', () => setMode('medium'));
     document.getElementById('hard-button').addEventListener('click', () => setMode('hard'));
-    
     document.getElementById('score-button').addEventListener('click', () => {
         const scoreText = getAllTimeScoreText();
         document.getElementById('modal-score').innerHTML = scoreText;
-
         // Show modal and overlay
         document.getElementById('score-modal').style.display = 'block';
         document.getElementById('modal-overlay').style.display = 'block';
     });
-
     // Close the modal
     document.getElementById('close-modal').addEventListener('click', () => {
         document.getElementById('score-modal').style.display = 'none';
         document.getElementById('modal-overlay').style.display = 'none';
     });
-
-
     // Close modal when overlay is clicked
     document.getElementById('modal-overlay').addEventListener('click', () => {
         document.getElementById('score-modal').style.display = 'none';
