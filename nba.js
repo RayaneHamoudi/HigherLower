@@ -4,7 +4,7 @@
     let attemptCount = 0;
     let gamewin = 0;
     let jsonMode;   
-    
+    let jsonListData;
     document.getElementById('player-guess').hidden = true;
     document.querySelector('label[for="player-guess"]').hidden = true;
     document.getElementById('attempts').hidden = true;
@@ -104,21 +104,30 @@
             document.getElementById('easy-button').hidden = true;
             document.getElementById('medium-button').hidden = true;
             document.getElementById('hard-button').hidden = true;
-            
+            })
+            .catch(error => console.error('Error fetching data', error));
+    }
+
+
+
+        let jsonListName = `json/nba.json`;
+        fetch(jsonListName)
+        .then(response => response.json())
+        .then(data => {
+            jsonListData = data;
             // Populate the datalist with player names
             const datalist = document.getElementById('player-names');
-                jsonData.players.forEach(player => {
+                jsonListData.players.forEach(player => {
                     const option = document.createElement('option');
                     option.value = player.Name; // Use correct property name
                     datalist.appendChild(option);
                 });
-    
                 // Search bar functionality
                 const searchBar = document.getElementById('player-guess');
                 searchBar.addEventListener('input', displayAutocompleteSuggestions);
             })
             .catch(error => console.error('Error fetching data', error));
-    }
+    
     
     // Function to generate player picture URL
     function getPlayerPictureUrl(player) {
@@ -139,8 +148,8 @@
         
         // Get the user's guessed player
         const playerGuess = document.getElementById('player-guess').value;
-        if (!jsonData) {return;}
-        let guessedPlayer = jsonData.players.find(player => player.Name.toLowerCase() === playerGuess.toLowerCase());
+        if (!jsonListData) {return;}
+        let guessedPlayer = jsonListData.players.find(player => player.Name.toLowerCase() === playerGuess.toLowerCase());
         if (guessedPlayer== null && attemptCount<6) {
             document.getElementById('result').textContent="Enter a valid guess";
             return;
@@ -178,9 +187,28 @@
                 if (guessedValue > randomValue) {
                     accoladeElement.querySelector('.arrow').textContent = ' ↓';
                     accoladeElement.style.color = 'red';
+                    if(accolade=="All-Star" && guessedValue-3 <= randomValue){
+                        accoladeElement.style.color = 'gold'
+                    }
+                    else if(accolade=="Draft-Year" && guessedValue-3 <= randomValue){
+                        accoladeElement.style.color = 'gold'
+                    } 
+                    //else if (guessedValue-1 <= randomValue){
+                    //    accoladeElement.style.color = 'gold'
+                    //}
                 } else if (guessedValue < randomValue) {
                     accoladeElement.querySelector('.arrow').textContent = ' ↑';
                     accoladeElement.style.color = 'red';
+                    if(accolade=="All-Star" && guessedValue+3 >= randomValue){
+                        accoladeElement.style.color = "gold"
+                    }
+                    else if(accolade=="Draft-Year" && guessedValue+3 >= randomValue){
+                        accoladeElement.style.color = 'gold'
+                    } 
+                    //else if (guessedValue+1 >= randomValue ){
+                    //    accoladeElement.style.color = 'yellow'
+                    //}
+
                 } else {
                     accoladeElement.querySelector('.arrow').textContent = '';
                     accoladeElement.style.color = 'green';
@@ -191,9 +219,9 @@
         
         // Display the guessed player's accolades
         playerInfo.prepend(guessedPlayerRow);
-        
+        console.log(guessedPlayer.Name)
         // Display the correct answer
-        displayResult(guessedPlayer == randomPlayer);
+        displayResult(guessedPlayer.Name === randomPlayer.Name);
         
         // Create the player picture element
         if(gamewin==0){
@@ -267,6 +295,15 @@
     // Close modal when overlay is clicked
     document.getElementById('modal-overlay').addEventListener('click', () => {
         document.getElementById('score-modal').style.display = 'none';
+        document.getElementById('modal-overlay').style.display = 'none';
+    });
+    document.getElementById('info-button').addEventListener('click', function () {
+        document.getElementById('info-modal').style.display = 'block';
+        document.getElementById('modal-overlay').style.display = 'block';
+    });
+    
+    document.getElementById('close-info-modal').addEventListener('click', function () {
+        document.getElementById('info-modal').style.display = 'none';
         document.getElementById('modal-overlay').style.display = 'none';
     });
 

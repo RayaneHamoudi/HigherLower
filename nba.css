@@ -126,3 +126,21 @@ button:hover {
 #game-container {
     position: relative;
 }
+#info-modal ol {
+    text-align: left;
+    margin-left: 20px; /* Optional: Adds indentation for better readability */
+}
+#info-modal {
+    overflow-y: auto;
+    max-height: 80vh; /* Adjust as needed for your layout */
+    width: 90%;
+    max-width: 600px;
+}
+#info-modal ol {
+    text-align: left;
+    margin-left: 20px;
+}
+
+#info-modal ol li::marker {
+    font-weight: bold;
+}
