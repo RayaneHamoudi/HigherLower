@@ -1,4 +1,4 @@
-    document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     let jsonData;
     let randomPlayer;
     let attemptCount = 0;
@@ -250,7 +250,7 @@
             //creates correct answer row
             if(gamewin == 0){
                 updateAllTimeScore(jsonMode);
-                displayAllTimeScore();
+                
                 for (const accolade in randomPlayer) {
                     if (accolade !== "Name") {
                         const randomValue = randomPlayer[accolade];
