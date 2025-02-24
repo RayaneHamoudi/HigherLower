@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --nba-blue: #1d428a;
+  --nba-red: #c8102e;
+  --electric-blue: #00a0dc;
+  --gold: #fdb927;
+  --silver: #b4b4b4;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at center, var(--nba-blue) 0%, #000 100%);
+  min-height: 100vh;
+  margin: 0;
+  position: relative;
+}
+
+/* Court texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&q=80&w=2000');
+  background-size: cover;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.game-title {
+  font-family: 'Bebas Neue', sans-serif;
+  color: white;
+  text-shadow: 0 0 20px rgba(0, 160, 220, 0.5);
+  letter-spacing: 2px;
+}
+
+.scoreboard {
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid var(--electric-blue);
+  box-shadow: 0 0 20px rgba(0, 160, 220, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.player-card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.player-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 160, 220, 0.2);
+}
+
+.stat-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: var(--gold);
+}
+
+.difficulty-btn {
+  font-family: 'Bebas Neue', sans-serif;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.difficulty-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 160, 220, 0.4);
+}
+
+.submit-btn {
+  background: var(--nba-red);
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(200, 16, 46, 0.4);
+}
+
+.player-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--electric-blue);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.player-input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 15px rgba(0, 160, 220, 0.3);
+}
+
+/* Animations */
+@keyframes scoreboardFlip {
+  0% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0deg); }
+}
+
+@keyframes correctAnswer {
+  0% { box-shadow: 0 0 0 rgba(0, 255, 0, 0); }
+  50% { box-shadow: 0 0 30px rgba(0, 255, 0, 0.5); }
+  100% { box-shadow: 0 0 0 rgba(0, 255, 0, 0); }
+}
+
+@keyframes wrongAnswer {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+.correct-answer {
+  animation: correctAnswer 1s ease;
+}
+
+.wrong-answer {
+  animation: wrongAnswer 0.5s ease;
+}
+
+.scoreboard-flip {
+  animation: scoreboardFlip 0.5s ease-out;
+}
